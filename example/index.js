@@ -15,12 +15,6 @@ class App extends Component {
     }
   }
 
-  onColorChange (color, themeName) {
-    let updatedTheme = this.state.theme
-    updatedTheme[themeName] = color
-    this.setState({ theme: updatedTheme })
-  }
-
   render () {
     return (
       <div>

@@ -1,102 +1,177 @@
-export default {
-  "entityMap": {
-    "0": {
-      "type": "LINK",
-      "mutability": "MUTABLE",
-      "data": {
-        "url": "http://vace.nz"
-      }
-    },
-    "1": {
-      "type": "MENTION",
-      "mutability": "IMMUTABLE",
-      "data": {
-        "url": "https://github.com/steveniseki",
-        "avatar": "https://avatars1.githubusercontent.com/u/6695114?v=3&s=400",
-        "name": "Steven Iseki"
-      }
-    }
-  },
-  "blocks": [
-    {
-      "key": "59kd9",
-      "text": "An editor built with Draft.js ",
-      "type": "unstyled",
-      "depth": 0,
-      "inlineStyleRanges": [
-        {
-          "offset": 21,
-          "length": 8,
-          "style": "color-0074D9"
+export const raw = {
+    "entityMap": {
+        "0": {
+            "type": "image",
+            "mutability": "IMMUTABLE",
+            "data": {
+                "src": "http://imgur.com/yrwFoXT.jpg"
+            }
         }
-      ],
-      "entityRanges": [],
-      "data": {}
+    },
+    "blocks": [{
+        "key": "9gm3s",
+        "text": "This final draft editor is pretty cool!",
+        "type": "header-two",
+        "depth": 0,
+        "inlineStyleRanges": [],
+        "entityRanges": [],
+        "data": {}
     },
     {
-      "key": "6l1hu",
-      "text": "Made with ❤️ by vace.nz ",
-      "type": "unstyled",
-      "depth": 0,
-      "inlineStyleRanges": [
-        {
-          "offset": 16,
-          "length": 7,
-          "style": "color-C1E1A6"
-        }
-      ],
-      "entityRanges": [
-        {
-          "offset": 16,
-          "length": 7,
-          "key": 0
-        }
-      ],
-      "data": {}
+       "key":"c49d7",
+       "text":"It is built with plugins from the awesome draft-js-plugins project. 🐲☀️🗻",
+       "type":"unstyled",
+       "depth":0,
+       "inlineStyleRanges":[
+       ],
+       "entityRanges":[
+          {
+             "offset":68,
+             "length":1,
+             "key":0
+          },
+          {
+             "offset":69,
+             "length":2,
+             "key":1
+          },
+          {
+             "offset":71,
+             "length":1,
+             "key":2
+          }
+       ],
+       "data":{
+       }
     },
     {
-      "key": "9vgd",
-      "text": "",
-      "type": "atomic",
-      "depth": 0,
-      "inlineStyleRanges": [],
-      "entityRanges": [],
-      "data": {
-        "type": "image",
-        "src": "http://i.imgur.com/HYXFLl7.jpg",
-        "caption": "Cool image",
-        "display": "big"
-      }
+        "key": "ov7r",
+        "text": " ",
+        "type": "atomic",
+        "depth": 0,
+        "inlineStyleRanges": [],
+        "entityRanges": [{
+            "offset": 0,
+            "length": 1,
+            "key": 0
+        }],
+        "data": {}
     },
     {
-      "key": "ec1la",
-      "text": "",
-      "type": "atomic",
-      "depth": 0,
-      "inlineStyleRanges": [],
-      "entityRanges": []
+       "key":"bdh45",
+       "text":"It is nice to see the color changes if we go over our limit, 300 characters and also 50 words",
+       "type":"unstyled",
+       "depth":0,
+       "inlineStyleRanges":[
+       ],
+       "entityRanges":[
+       ],
+       "data":{
+       }
     },
     {
-      "key": "ef02e",
-      "text": "",
-      "type": "atomic",
-      "depth": 0,
-      "inlineStyleRanges": [],
-      "entityRanges": [],
-      "data": {
-        "src": "https://player.vimeo.com/video/29658258",
-        "type": "video",
-        "caption": "Awesome video"
-      }
+       "key":"dnb36",
+       "text":"",
+       "type":"unstyled",
+       "depth":0,
+       "inlineStyleRanges":[
+       ],
+       "entityRanges":[
+       ],
+       "data":{
+       }
     },
     {
-      "key": "aep41",
-      "text": "",
-      "type": "unstyled",
-      "depth": 0,
-      "inlineStyleRanges": [],
-      "entityRanges": [],
-      "data": {}
+       "key":"77rjk",
+       "text":"Pretty #cool to see #hastags :)",
+       "type":"unstyled",
+       "depth":0,
+       "inlineStyleRanges":[
+       ],
+       "entityRanges":[
+       ],
+       "data":{
+       }
+    },
+    {
+       "key":"cjgrp",
+       "text":"",
+       "type":"unstyled",
+       "depth":0,
+       "inlineStyleRanges":[
+       ],
+       "entityRanges":[
+       ],
+       "data":{
+       }
+    },
+    {
+       "key":"56vuj",
+       "text":"Also nice is the inline toolbar to show options once you select part of the text",
+       "type":"unstyled",
+       "depth":0,
+       "inlineStyleRanges":[
+          {
+             "offset":48,
+             "length":4,
+             "style":"UNDERLINE"
+          },
+          {
+             "offset":64,
+             "length":4,
+             "style":"ITALIC"
+          },
+          {
+             "offset":76,
+             "length":4,
+             "style":"BOLD"
+          }
+       ],
+       "entityRanges":[
+       ],
+       "data":{
+       }
+    },
+    {
+       "key":"43si6",
+       "text":"And the side toolbar to the left ⬅️",
+       "type":"unstyled",
+       "depth":0,
+       "inlineStyleRanges":[
+       ],
+       "entityRanges":[
+          {
+             "offset":33,
+             "length":2,
+             "key":3
+          }
+       ],
+       "data":{
+       }
+    },
+    {
+       "key":"d5f01",
+       "text":"Of course links to cool sites like https://draft-js-plugins.com work too",
+       "type":"unstyled",
+       "depth":0,
+       "inlineStyleRanges":[
+       ],
+       "entityRanges":[
+       ],
+       "data":{
+       }
+    },
+    {
+       "key":"cg9v2",
+       "text":"Mentions are a nice feature, just @ someone...",
+       "type":"unstyled",
+       "depth":0,
+       "inlineStyleRanges":[
+       ],
+       "entityRanges":[
+       ],
+       "data":{
+       }
     }
   ]
-};
+}

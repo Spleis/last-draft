@@ -23,9 +23,6 @@ const styleMap = {
     marginBottom: '-0.05em',
     padding: '0.05em 0.075em 0 0',
     position: 'relative'
-  },
-  'blue': {
-    color: 'rgb(84, 172, 210)'
   }
 }
 

@@ -1,107 +1,165 @@
 import React, { Component } from 'react'
 import { render } from 'react-dom'
-import {Editor, editorStateFromHtml, editorStateToHtml, editorStateFromRaw, editorStateToJSON, editorStateFromText} from '../src/'
+import Editor, { createEditorStateWithText, composeDecorators } from 'draft-js-plugins-editor'
+import { EditorState, convertFromRaw, convertToRaw, convertFromHTML, ContentState } from 'draft-js'
 
-/* init the state, either from raw or html */
-import RAW from './initialState/raw'
-import HTML from './initialState/html'
+/* Counter plugin */
+import createCounterPlugin from 'draft-js-counter-plugin'
+import 'draft-js-counter-plugin/lib/plugin.css'
+const counterPlugin = createCounterPlugin()
+const { CharCounter, WordCounter } = counterPlugin
 
-import video from 'ld-video'
-import color from 'ld-color-picker'
-import emoji from 'ld-emoji'
-import gif from 'ld-gif'
-import mention from 'ld-mention'
-import audio from 'ld-audio'
-import sticker from 'ld-sticker'
-import html from 'ld-html'
-import todo from 'ld-todo'
-let plugins = [video, color, emoji, gif, mention]
+/* Emoji plugin */
+import createEmojiPlugin from 'draft-js-emoji-plugin'
+import 'draft-js-emoji-plugin/lib/plugin.css'
+const emojiPlugin = createEmojiPlugin()
+const { EmojiSuggestions } = emojiPlugin
 
-export default class ExampleEditor extends Component {
-  constructor(props) {
-    super(props)
-    /* examples of initial state */
-    const INITIAL_STATE = editorStateFromRaw(RAW)
-    //const INITIAL_STATE = editorStateFromHtml(HTML)
-    //const INITIAL_STATE = editorStateFromRaw({})
-    //const INITIAL_STATE = editorStateFromText('this is a cooel editor... 🏄🌠🏀')
-    //const INITIAL_STATE = editorStateFromText('xyz')
-    //const INITIAL_STATE = editorStateFromHtml('<div />')
-    this.state = { value: INITIAL_STATE }
+/* Hashtag plugin */
+import createHashtagPlugin from 'draft-js-hashtag-plugin'
+import 'draft-js-hashtag-plugin/lib/plugin.css'
+const hashtagPlugin = createHashtagPlugin()
+
+/* Image with Alignment, dnd, focus, resize plugin */
+import createImagePlugin from 'draft-js-image-plugin'
+import createAlignmentPlugin from 'draft-js-alignment-plugin'
+import createFocusPlugin from 'draft-js-focus-plugin'
+import createResizeablePlugin from 'draft-js-resizeable-plugin'
+import createDndPlugin from 'draft-js-dnd-plugin'
+
+import 'draft-js-alignment-plugin/lib/plugin.css'
+import 'draft-js-focus-plugin/lib/plugin.css'
+
+const focusPlugin = createFocusPlugin();
+const resizeablePlugin = createResizeablePlugin();
+const dndPlugin = createDndPlugin();
+const alignmentPlugin = createAlignmentPlugin();
+const { AlignmentTool } = alignmentPlugin
+
+const decorator = composeDecorators(
+  resizeablePlugin.decorator,
+  alignmentPlugin.decorator,
+  focusPlugin.decorator,
+  dndPlugin.decorator
+)
+const imagePlugin = createImagePlugin({ decorator })
+
+/* inline toolbar */
+import createInlineToolbarPlugin from 'draft-js-inline-toolbar-plugin'
+import 'draft-js-inline-toolbar-plugin/lib/plugin.css'
+const inlineToolbarPlugin = createInlineToolbarPlugin()
+const { InlineToolbar } = inlineToolbarPlugin
+
+/* Linkify */
+import createLinkifyPlugin from 'draft-js-linkify-plugin'
+import 'draft-js-linkify-plugin/lib/plugin.css'
+const linkifyPlugin = createLinkifyPlugin()
+
+/* Mentions */
+import createMentionPlugin, { defaultSuggestionsFilter } from 'draft-js-mention-plugin'
+import 'draft-js-mention-plugin/lib/plugin.css'
+import { mentions, Entry, positionSuggestions} from './Mentions'
+const mentionPlugin = createMentionPlugin({ mentions, positionSuggestions })
+const { MentionSuggestions } = mentionPlugin
+
+/* Side Toolbar */
+import createSideToolbarPlugin from 'draft-js-side-toolbar-plugin'
+import 'draft-js-side-toolbar-plugin/lib/plugin.css'
+const sideToolbarPlugin = createSideToolbarPlugin()
+const { SideToolbar } = sideToolbarPlugin
+
+/* Stickers */
+import createStickerPlugin from 'draft-js-sticker-plugin'
+import stickers from './Stickers'
+import 'draft-js-sticker-plugin/lib/plugin.css'
+const stickerPlugin = createStickerPlugin({ stickers: stickers })
+const { StickerSelect } = stickerPlugin
+
+/* Undo Redo */
+import createUndoPlugin from 'draft-js-undo-plugin'
+import 'draft-js-undo-plugin/lib/plugin.css'
+const undoPlugin = createUndoPlugin()
+const { UndoButton, RedoButton } = undoPlugin
+
+/* init the plugins */
+const plugins = [
+  dndPlugin, focusPlugin, alignmentPlugin, resizeablePlugin, imagePlugin,
+  counterPlugin, emojiPlugin, hashtagPlugin, inlineToolbarPlugin, linkifyPlugin,
+  mentionPlugin, sideToolbarPlugin, stickerPlugin, undoPlugin
+]
+
+/* init the state, either from raw, html or text */
+import { raw } from './initialState/raw'
+
+/* from raw */
+const content = convertFromRaw(raw)
+let STATE = EditorState.createWithContent(content)
+
+export default class Final extends Component {
+
+  state = {
+    editorState: STATE,
+    suggestions: mentions
   }
 
-  onChange(editorState) {
-    this.setState({ value: editorState })
-    /* You would normally save this to your database here instead of logging it */
-    console.log(editorStateToHtml(editorState))
-    //console.log(editorStateToJSON(editorState))
+  onChange = (editorState) => {
+    this.setState({ editorState })
+
+    let raw = convertToRaw(editorState.getCurrentContent())
+    this.logState('raw state:', JSON.stringify(raw))
+  }
+
+  logState(type, raw) {
+    console.log(type)
+    console.log(JSON.stringify(raw))
+  }
+
+  focus = () => {
+    this.editor.focus()
+  }
+
+  onSearchChange = ({ value }) => {
+    this.setState({
+      suggestions: defaultSuggestionsFilter(value, mentions),
+    })
+  }
+
+  customCountFunction(str) {
+    const wordArray = str.match(/\S+/g)
+    return wordArray ? wordArray.length : 0
   }
 
   render() {
     return (
-      <Editor
-        theme={this.props.theme}
-        plugins={plugins}
-        sidebarVisibleOn='newline'
-        inline={['bold', 'italic', 'dropcap']}
-        blocks={['h3', 'quote']}
-        mentionUsers={mentionUsers}
-        autofocus={true}
-        separators={false}
-        editorState={this.state.value}
-        placeholder='Text'
-        uploadImageAsync={uploadImageAsync}
-        onChange={::this.onChange} />
+      <div>
+        <div className='editor' onClick={this.focus}>
+          <Editor
+            editorState={this.state.editorState}
+            onChange={this.onChange}
+            plugins={plugins}
+            ref={(element) => { this.editor = element; }}
+          />
+          <AlignmentTool />
+          <InlineToolbar />
+          <SideToolbar />
+          <EmojiSuggestions />
+          <MentionSuggestions
+            onSearchChange={this.onSearchChange}
+            suggestions={this.state.suggestions}
+            entryComponent={Entry}
+          />
+        </div>
+
+        <div className='options'>
+          <div><CharCounter limit={300} /> characters out of an allowed 300</div>
+          <div><WordCounter limit={50} /> words out of an allowed 50</div>
+
+          <StickerSelect editor={this} />
+          <UndoButton />
+          <RedoButton />
+        </div>
+
+      </div>
     )
   }
 }
-
-function uploadImageAsync(file) {
-  return new Promise(
-    (resolve, reject) => {
-      /* simulate a 2 second call to parse file and return an img src... */
-      setTimeout( () => {
-        /* the image src would be a url from an S3 or database resouse */
-        const src = window.URL.createObjectURL(file)
-        //const src = 'http://imgur.com/yrwFoXT.jpg'
-        resolve({ src: src });
-      }, 2000)
-    }
-  )
-}
-
-const mentionUsers = [
-  {
-    name: 'Max Stoiber',
-    link: 'https://github.com/mxstbr',
-    avatar: 'https://avatars0.githubusercontent.com/u/7525670?v=3&s=400',
-  },
-  {
-    name: 'Nik Graf',
-    link: 'https://github.com/nikgraf',
-    avatar: 'https://avatars2.githubusercontent.com/u/223045?v=3&s=400',
-  },
-  {
-    name: 'Steven Iseki',
-    link: 'https://github.com/steveniseki',
-    avatar: 'https://avatars1.githubusercontent.com/u/6695114?v=3&s=400',
-  },
-]
-
-/* mentionUsersAsync example using github search api */
-
-/*
-const mentionUsersAsync = function (searchValue, cb) {
-  return new Promise(
-    (resolve, reject) => {
-      let url = `https://api.github.com/search/users?q=${searchValue}`
-      fetch(url)
-      .then( (response) => { return response.json() })
-      .then((data) => {
-        let users = data.items.map( (u, i) => { return { name: u.login, link: u.html_url, avatar: u.avatar_url } })
-        resolve({ mentionUsers: users })
-      })
-    }
-  )
-}
-*/
