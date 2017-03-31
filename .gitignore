@@ -3,3 +3,4 @@ node_modules
 example/public/bundle.js
 example/public/vendor.js
 example/public/stats.html
+.idea
