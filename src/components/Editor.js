@@ -11,6 +11,7 @@ import DraftOffsetKey from 'draft-js/lib/DraftOffsetKey'
 import {editorStateFromHtml, editorStateToHtml, editorStateFromText} from '../utils/convert'
 
 import Toolbar from './Toolbar/Toolbar'
+import StaticToolbar from './Toolbar/StaticToolbar'
 import Sidebar from './Sidebar/Sidebar'
 import Atomic from './Blocks/Atomic'
 import Media from './Blocks/Media'
@@ -38,6 +39,7 @@ export default class extends Component {
       maxLeftOffset: 150,
       tooltips: true,
       sidebarVisibleOn: 'newline',
+      showStaticBar: false,
       theme: {
         color: '#fff',
         backgroundColor: '#181818',
@@ -388,6 +390,10 @@ export default class extends Component {
     return <Toolbar {...props} />
   }
 
+  renderStaticToolbar (props) {
+    return <StaticToolbar {...props} />
+  }
+
   renderSidebar (props) {
     return <Sidebar {...props} />
   }
@@ -461,6 +467,22 @@ export default class extends Component {
     return (
       <div>
         <div id='editor' ref='editorWrapper' className='last-draft-editor'>
+          {this.props.showStaticBar ? this.renderStaticToolbar({
+            editorWrapper: this.refs.editorWrapper,
+            editorState,
+            theme,
+            separators,
+            toolbarHeight,
+            tooltips: this.props.tooltips,
+            sidebarOpen: true,
+            readOnly: this.state.readOnly,
+            uploadFile: this.uploadFile,
+            uploadImageAsync: this.props.uploadImageAsync,
+            submitHtmlModal: this.resetStateFromHtml,
+            returnStateAsHtml: this.returnStateAsHtml,
+            onChange: this.onChange,
+            actions: this.allActions
+          }) : null}
           {this.renderSidebar({
             editorState,
             sidebarOpen: this.state.sidebarOpen,
