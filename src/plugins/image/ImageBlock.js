@@ -31,11 +31,6 @@ export default class ImageBlock extends Component {
     ]
   }
 
-  handleCaptionChange (event) {
-    event.stopPropagation()
-    this.props.container.updateData({caption: event.target.value})
-  }
-
   handleAltChange (event) {
     event.stopPropagation()
     this.props.container.updateData({alt: event.target.value})
@@ -57,11 +52,6 @@ export default class ImageBlock extends Component {
             title={this.props.data.title}
             className='ld-image-block' />
         </BlockContent>
-
-        <BlockInput
-          placeholder='Caption'
-          value={this.props.data.caption}
-          onChange={::this.handleCaptionChange} />
 
         {
           this.props.showImageAttributes &&
