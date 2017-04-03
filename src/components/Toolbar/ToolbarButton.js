@@ -13,10 +13,10 @@ import insertDataBlock from '../../utils/insertDataBlock'
 export class PluginButton extends Component {
   render () {
     const Button = this.props.item.icon
-    const { theme } = this.props
+    const { theme, active } = this.props
 
     return (
-      <ToolbarButtonWrapper theme={theme} active={false} className='ld-toolbar-button-wrapper'>
+      <ToolbarButtonWrapper theme={theme} active={active} className='ld-toolbar-button-wrapper'>
         {this.props.tooltips && <Label>{this.props.item.label}</Label>}
         <LdToolbarButton className='ld-toolbar-button'>
           <Button
@@ -64,6 +64,8 @@ const ToolbarButtonWrapper = styled.li`
   display: inline-block;
   margin: 0 !important;
   color: ${props => props.active ? props.theme.highlight : props.theme.color};
+  backgroundColor: ${props => props.active ? props.theme.highlightBackgroundColor : null};
+  borderRadius: ${props => props.active ? props.theme.toolbarButtonBorderRadius : null};
   &:hover {
     color: ${props => props.theme.color};
     span {
