@@ -182,7 +182,7 @@ const {
  UNDERLINE,
 } = INLINE_STYLE;
 
-const INDENT = '  ';
+const INDENT = '';
 const BREAK = '<br>';
 const DATA_ATTRIBUTE = /^data-([a-z0-9-]+)$/;
 
