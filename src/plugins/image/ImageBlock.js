@@ -31,16 +31,6 @@ export default class ImageBlock extends Component {
     ]
   }
 
-  handleAltChange (event) {
-    event.stopPropagation()
-    this.props.container.updateData({alt: event.target.value})
-  }
-
-  handleTitleChange (event) {
-    event.stopPropagation()
-    this.props.container.updateData({title: event.target.value})
-  }
-
   render () {
     return (
       <Block {...this.props} actions={this.actions}>
@@ -48,24 +38,8 @@ export default class ImageBlock extends Component {
           <Image
             src={this.props.data.src}
             srcSet={this.props.data.srcSet}
-            alt={this.props.data.alt}
-            title={this.props.data.title}
             className='ld-image-block' />
         </BlockContent>
-
-        {
-          this.props.showImageAttributes &&
-            <InputWrap>
-              <BlockInput
-                placeholder='Title'
-                value={this.props.data.title}
-                onChange={::this.handleTitleChange} />
-              <BlockInput
-                placeholder='Alt'
-                value={this.props.data.alt}
-                onChange={::this.handleAltChange} />
-            </InputWrap>
-        }
       </Block>
     )
   }
