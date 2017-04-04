@@ -27,7 +27,7 @@ export default class Link extends Component {
     let match = linkify.match(url)
 
     if (match === null) {
-      this.props.setError(('Invalid Link'))
+      this.props.setError(('Ugyldig lenke'))
       ReactDOM.findDOMNode(this.refs.textInput).focus()
       return
     }
@@ -85,7 +85,7 @@ export default class Link extends Component {
           onChange={::this.onLinkChange}
           value={this.state.url}
           onKeyDown={::this.onLinkKeyDown}
-          placeholder='Type the link and press enter' />
+          placeholder='Skriv inn lenken og trykk enter' />
         <LinkToolbarItem className='ld-link-toolbar-item' theme={theme}>
           <LinkToolbarButton
             className='ld-link-toolbar-button'
