@@ -112,17 +112,20 @@ export default class extends Component {
         break
       }
       case 'plugin': {
-        return (
-          <PluginButton
-            theme={this.props.theme}
-            tooltips={this.props.tooltips}
-            uploadImageAsync={this.props.uploadImageAsync}
-            uploadFile={this.props.uploadFile}
-            editorState={this.props.editorState}
-            onChange={::this.props.onChange}
-            key={key}
-            item={item} />
-        )
+        if (item.label === 'image') {
+          return (
+            <PluginButton
+              theme={this.props.theme}
+              tooltips={this.props.tooltips}
+              uploadImageAsync={this.props.uploadImageAsync}
+              uploadFile={this.props.uploadFile}
+              editorState={this.props.editorState}
+              onChange={::this.props.onChange}
+              key={key}
+              item={item} />
+          )
+        }
+        return null;
       }
     }
 
