@@ -435,6 +435,9 @@ export default class extends Component {
         const imageData = {src: data.src, srcSet: srcSet, type: 'image', caption: data.caption || '', title: '', alt: ''}
         this.onChange(insertDataBlock(editorState, imageData, selection))
         this.setState({ uploading: false })
+      }).catch((error) => {
+        this.onChange(insertDataBlock(editorState, null, selection))
+        this.setState({ uploading: false });
       })
     } else {
       const src = window.URL.createObjectURL(file)
