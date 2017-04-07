@@ -77,6 +77,7 @@ const inlineTags = {
   strike: 'STRIKETHROUGH',
   strong: 'BOLD',
   u: 'UNDERLINE',
+  ins: 'UNDERLINE'
 };
 
 
