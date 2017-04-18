@@ -8,10 +8,8 @@
 import React, {Component} from 'react'
 import {RichUtils} from 'draft-js'
 import {ToolbarButton, PluginButton} from './ToolbarButton'
-import LinkToolbar from './LinkToolbar'
 import Header from './Header'
 import {getSelectionCoords, getSelectedBlockElement} from '../../utils/selection'
-import {hasEntity} from '../../utils/entity'
 import styled from 'styled-components'
 import insertDataBlock from '../../utils/insertDataBlock'
 
@@ -19,7 +17,6 @@ export default class extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      editingEntity: null,
       link: '',
       error: null,
       position: {},
@@ -45,25 +42,6 @@ export default class extends Component {
     this.props.onChange(
       RichUtils.toggleBlockType(this.props.editorState, blockType)
     )
-  }
-
-  /* entity */
-  toggleEntity (entity, active) {
-    this.setState({editingEntity: entity})
-  }
-
-  removeEntity () {
-    const selection = this.props.editorState.getSelection()
-    if (!selection.isCollapsed()) {
-      this.props.onChange(RichUtils.toggleLink(this.props.editorState, selection, null))
-    }
-    this.cancelEntity()
-  }
-
-  cancelEntity () {
-    const {editorWrapper} = this.props
-    editorWrapper && editorWrapper.focus()
-    this.setState({ editingEntity: null, error: null })
   }
 
   setBarPosition () {
@@ -104,13 +82,6 @@ export default class extends Component {
         key = 'sep-' + position
         break
       }
-      case 'entity': {
-        const {entity = 'LINK'} = item
-        key = 'entity-' + entity
-        active = hasEntity(entity, editorState)
-        toggle = () => this.toggleEntity(entity, active)
-        break
-      }
       case 'plugin': {
         if (item.label === 'image') {
           return (
@@ -127,6 +98,8 @@ export default class extends Component {
         }
         return null;
       }
+      default:
+        return null;
     }
 
     return (
@@ -142,20 +115,10 @@ export default class extends Component {
   }
 
   renderToolbar () {
-    const { editingEntity, showModal } = this.state
+    const { showModal } = this.state
 
     let toolbar = null
-    if (editingEntity === 'LINK') {
-      toolbar = (
-        <LinkToolbar
-          {...this.props}
-          setError={::this.setError}
-          cancelError={::this.cancelError}
-          cancelEntity={::this.cancelEntity}
-          removeEntity={::this.removeEntity}
-          entityType={this.state.editingEntity} />
-      )
-    } else if (showModal) {
+    if (showModal) {
       let Modal = this.state.modal
       toolbar = (
         <Modal
