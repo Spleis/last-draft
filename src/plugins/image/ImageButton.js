@@ -28,6 +28,7 @@ export default class extends Component {
         <input
           type='file'
           ref='fileInput'
+          value=''
           onChange={::this.inputChange}
           style={{ display: 'none' }} />
       </div>
