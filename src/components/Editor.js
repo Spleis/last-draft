@@ -486,7 +486,7 @@ export default class extends Component {
             onChange: this.onChange,
             actions: this.allActions
           }) : null}
-          {this.renderSidebar({
+          {!this.props.isMobile ? this.renderSidebar({
             editorState,
             sidebarOpen: this.state.sidebarOpen,
             sidebarVisible: this.state.sidebarVisible,
@@ -495,8 +495,8 @@ export default class extends Component {
             closeSidebar: this.closeSidebar,
             readOnly: this.state.readOnly,
             onChange: this.onChange
-          })}
-          {this.renderToolbar({
+          }) : null}
+          {!this.props.isMobile ? this.renderToolbar({
             editorWrapper: this.refs.editorWrapper,
             editorState,
             theme,
@@ -513,7 +513,7 @@ export default class extends Component {
             returnStateAsHtml: this.returnStateAsHtml,
             onChange: this.onChange,
             actions: this.actions
-          })}
+          }) : null}
           {
             this.renderEmojiList({
               editorWrapper: this.refs.editorWrapper,
