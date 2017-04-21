@@ -28,6 +28,7 @@ export default class extends Component {
         <input
           type='file'
           ref='fileInput'
+          accept='.jpg,.jpeg,.png'
           value=''
           onChange={::this.inputChange}
           style={{ display: 'none' }} />
