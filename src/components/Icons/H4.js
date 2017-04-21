@@ -11,7 +11,7 @@ export default class extends React.Component {
   render () {
     return (
       <svg width='24' height='24' viewBox='0 0 24 24' className='ld-button-header'>
-        <text style={{fontSize: '18px'}} x="0" y="18" stroke="none" fill="currentColor">H4</text>
+        <text style={{fontSize: '18px'}} x="5" y="18" stroke="none" fill="currentColor">T</text>
       </svg>
     )
   }
