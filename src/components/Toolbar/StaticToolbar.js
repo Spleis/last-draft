@@ -182,7 +182,7 @@ export default class extends Component {
 
     return (
       <ToolbarWrapper showModal={this.state.showModal} theme={theme} ref='toolbarWrapper' style={toolbarStyle} className='ld-toolbar-wrapper'>
-        <div style={{position: 'absolute', bottom: '15px'}}>
+        <div style={{position: 'absolute', bottom: '15px', width: '100%', borderBottom: 'solid 2px #ccc', textAlign: 'left', paddingLeft: '5px'}}>
           <Toolbar toolbarLeft={this.state.toolbarLeft} ref='toolbar' error={error} theme={theme} className='ld-toolbar'>
             {this.renderToolbar()}
             {this.state.error && this.renderError()}
