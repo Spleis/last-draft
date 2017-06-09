@@ -453,7 +453,7 @@ class MarkupGenerator {
    let text = block.getText();
    if (text === '') {
      // Prevent element collapse if completely empty.
-     return BREAK;
+     return '';
    }
    text = this.preserveWhitespace(text);
    let charMetaList                    = block.getCharacterList();
