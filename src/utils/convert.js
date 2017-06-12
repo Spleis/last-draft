@@ -180,21 +180,25 @@ export function editorStateToHtml(editorState) {
   })
 
   /* logic for linkify due to no Entity support in stateToHTML */
-  let convertedHTMLLinkify = convertedHTML
-  const linkifyMatch = linkify.match(convertedHTML)
+  const removeMeTag = ':removeMe:';
+  const convertedHTMLWithRemoveTags = convertedHTML.replace(/href="http/g, 'href="http' + removeMeTag);
+  let convertedHTMLLinkify = convertedHTMLWithRemoveTags;
+  const linkifyMatch = linkify.match(convertedHTMLWithRemoveTags)
   if (linkifyMatch !== null) {
     convertedHTMLLinkify = linkifyMatch.filter(function(match) {
-      if(/(src|ref|set)=('|")/.test(convertedHTML.slice(match.index - 5, match.index))){
+      if(/(src|ref|set)=('|")/.test(convertedHTMLWithRemoveTags.slice(match.index - 5, match.index))){
         return
       } else {
         return match
       }
     }).reduce( (current, match) => {
-      return current.replace(match.url, `<a href="${match.url}">${match.url}</a>`)
-    }, convertedHTML)
+        const urlWithTag = match.url.slice(0, 8) + ':removeMe:' + match.url.slice(8);
+        return current.replace(match.url, '<a href="' + urlWithTag + '">' + urlWithTag + '</a>');
+    }, convertedHTMLWithRemoveTags)
   }
 
   /* logic for hashtags due to no Entity support in stateToHTML */
+  convertedHTMLLinkify = convertedHTMLLinkify.replace(/:removeMe:/g, '');
   let convertedHTMLHash = convertedHTMLLinkify
   const hashMatch = extractHashtagsWithIndices(convertedHTMLHash)
   if (hashMatch !== null) {

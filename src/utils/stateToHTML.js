@@ -487,8 +487,12 @@ class MarkupGenerator {
      // Note: The `toUpperCase` below is for compatability with some libraries that use lower-case for image blocks.
      let entityType = (entity == null) ? null : entity.getType().toUpperCase();
      if (entityType != null && entityType === ENTITY_TYPE.LINK) {
-       let attrs = DATA_TO_ATTR.hasOwnProperty(entityType) ? DATA_TO_ATTR[entityType](entityType, entity) : null;
-       let attrString = stringifyAttrs(attrs);
+      let attrs = DATA_TO_ATTR.hasOwnProperty(entityType) ? DATA_TO_ATTR[entityType](entityType, entity) : null;
+      let attrString = stringifyAttrs(attrs);
+      var linkFromHref = attrString.split('href="')[1];
+      if (content.indexOf('https') > -1 || content.indexOf('http') > -1 || !(linkFromHref.indexOf('http') === 0 || linkFromHref.indexOf('https') === 0)) {
+        return content;
+       }
        return `<a${attrString}>${content}</a>`;
      } else if (entityType != null && entityType === ENTITY_TYPE.MENTION) {
        let attrs = DATA_TO_ATTR.hasOwnProperty(entityType) ? DATA_TO_ATTR[entityType](entityType, entity) : null;
